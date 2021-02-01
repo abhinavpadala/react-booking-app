@@ -1,0 +1,50 @@
+.App {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.booking-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  height: 70vh;
+  max-width: 30%;
+}
+
+.booking-header {
+  color: black;
+  height: 20%;
+  background-color: skyblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-search {
+  display: flex;
+  width: auto;
+  padding: 15px;
+  padding-bottom: 0;
+}
+
+.booking-locations {
+  width: auto;
+  color: black;
+  font-size: medium;
+  padding: 0 15px 15px 15px;
+}
+
+.locations-location {
+  padding: 10px;
+  padding-left: 0;
+}
+
+.locations-location:hover {
+  background-color: #f2f4f4;
+  cursor: pointer;
+}
