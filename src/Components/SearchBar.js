@@ -6,13 +6,15 @@ const SearchBar = (props) => {
     background: "#F2F1F9",
     border: "none",
     padding: "0.5rem",
+    height: "30px",
+    fontSize: "medium",
   };
   return (
     <input
       style={BarStyling}
       key="random1"
       value={props.keyword}
-      placeholder={"search country"}
+      placeholder={"Add location"}
       onChange={(e) => props.onChange(e.target.value)}
     />
   );
