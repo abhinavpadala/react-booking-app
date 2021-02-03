@@ -1,6 +1,9 @@
 import React from "react";
 
 const Estimate = (props) => {
+  if (props.estimate.name === "BadRequestError") {
+    return null;
+  }
   const styles = {
     flex: "33.3%",
   };

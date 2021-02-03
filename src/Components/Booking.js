@@ -6,7 +6,8 @@ import { data } from "./Seed";
 import Estimate from "./Estimate";
 import Book from "./Book";
 import BookLater from "./BookLater";
-import { bookRide } from "../API/BookRide";
+import { getEstimate } from "../API/GetEstimate";
+import { requestRide } from "../API/RequestRide";
 
 const Booking = () => {
   const [keyword, setKeyword] = useState("");
@@ -20,15 +21,15 @@ const Booking = () => {
 
   useEffect(() => {
     if (fromLocation && toLocation) {
-      async function getEstimate() {
-        const estimate = bookRide(
+      async function callGetEstimate() {
+        const estimate = getEstimate(
           fromLocation,
           toLocation,
           Math.floor(Date.now() / 1000)
         );
         setEstimate(await estimate);
       }
-      getEstimate();
+      callGetEstimate();
     }
   }, [fromLocation, toLocation]);
 
@@ -61,6 +62,14 @@ const Booking = () => {
   const handleDrop = () => {
     setToLocation(undefined);
   };
+
+  async function reqRide() {
+    if (!estimate) {
+      return;
+    }
+    const booking = await requestRide(estimate);
+    console.log(booking);
+  }
 
   return (
     <div className="booking-container">
@@ -113,16 +122,16 @@ const Booking = () => {
           <Estimate estimate={estimate} />
         </div>
       ) : null}
-      {estimate && fromLocation && toLocation ? (
-        <div className="booking-now">
+      {/* {estimate && fromLocation && toLocation ? (
+        <div className="booking-now" onClick={reqRide}>
           <Book />
         </div>
-      ) : null}
-      {/* {fromLocation && toLocation ? (
+      ) : null} */}
+      {fromLocation && toLocation ? (
         <div className="booking-later">
           <BookLater />
         </div>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };

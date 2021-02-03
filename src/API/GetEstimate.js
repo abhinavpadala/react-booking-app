@@ -2,7 +2,7 @@ import bearerToken from "../config";
 import { data } from "../Components/Seed";
 const fetch = require("node-fetch");
 
-async function bookRide(pickupAddress, dropoffAddress, ts) {
+async function getEstimate(pickupAddress, dropoffAddress, ts) {
   const requestedPickupAddress = pickupAddress;
   var requestedPickupLatitude = undefined;
   var requestedPickupLongitude = undefined;
@@ -57,4 +57,4 @@ async function bookRide(pickupAddress, dropoffAddress, ts) {
   return await estimate;
 }
 
-export { bookRide };
+export { getEstimate };
