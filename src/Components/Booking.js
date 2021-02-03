@@ -3,6 +3,7 @@ import "../Styles/App.css";
 import SearchBar from "./SearchBar";
 import LocationsList from "./LocationsList";
 import { data } from "./Seed";
+import Estimate from "./Estimate";
 import Book from "./Book";
 import BookLater from "./BookLater";
 import { bookRide } from "../API/BookRide";
@@ -15,10 +16,19 @@ const Booking = () => {
   const [showLocations, setShowLocations] = useState(true);
 
   const [headerText, setHeaderText] = useState("Where can we pick you up?");
+  const [estimate, setEstimate] = useState(undefined);
 
   useEffect(() => {
     if (fromLocation && toLocation) {
-      bookRide(fromLocation, toLocation, Math.floor(Date.now() / 1000));
+      async function getEstimate() {
+        const estimate = bookRide(
+          fromLocation,
+          toLocation,
+          Math.floor(Date.now() / 1000)
+        );
+        setEstimate(await estimate);
+      }
+      getEstimate();
     }
   }, [fromLocation, toLocation]);
 
@@ -45,11 +55,11 @@ const Booking = () => {
   };
 
   const handlePickup = () => {
-    setFromLocation("");
+    setFromLocation(undefined);
   };
 
   const handleDrop = () => {
-    setToLocation("");
+    setToLocation(undefined);
   };
 
   return (
@@ -98,12 +108,17 @@ const Booking = () => {
           />
         </div>
       ) : null}
-      {/* {fromLocation && toLocation ? (
+      {estimate && fromLocation && toLocation ? (
+        <div className="booking-estimate">
+          <Estimate estimate={estimate} />
+        </div>
+      ) : null}
+      {estimate && fromLocation && toLocation ? (
         <div className="booking-now">
           <Book />
         </div>
       ) : null}
-      {fromLocation && toLocation ? (
+      {/* {fromLocation && toLocation ? (
         <div className="booking-later">
           <BookLater />
         </div>

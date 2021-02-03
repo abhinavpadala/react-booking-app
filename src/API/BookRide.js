@@ -49,11 +49,12 @@ async function bookRide(pickupAddress, dropoffAddress, ts) {
   const estimateResponse = await fetch(url, {
     headers: headers,
   });
+  console.log(estimateResponse);
   const text = await estimateResponse.text();
   //console.log("estimateResponse.text()", text);
   const estimate = JSON.parse(await text);
   console.log("estimate", estimate);
-  return null;
+  return await estimate;
 }
 
 export { bookRide };
