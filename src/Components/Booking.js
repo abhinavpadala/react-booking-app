@@ -19,7 +19,9 @@ const Booking = () => {
 
   const [headerText, setHeaderText] = useState("Where can we pick you up?");
   const [estimate, setEstimate] = useState(undefined);
+  const [booking, setBooking] = useState(false);
 
+  // Get ride estimates
   useEffect(() => {
     if (fromLocation && toLocation && ts) {
       console.log(ts);
@@ -31,6 +33,7 @@ const Booking = () => {
     }
   }, [fromLocation, toLocation, ts]);
 
+  // Update search recommendations
   const updateKeyword = async (input) => {
     const filteredLocations = data.filter((location) => {
       if (!input) {
@@ -43,6 +46,7 @@ const Booking = () => {
     setLocationsList(filteredLocations);
   };
 
+  // Set from and to address
   const onSelection = (location) => {
     setKeyword("");
     setShowLocations(false);
@@ -53,12 +57,15 @@ const Booking = () => {
     }
   };
 
+  //
   const handlePickup = () => {
     setFromLocation(undefined);
+    setEstimate(undefined);
   };
 
   const handleDrop = () => {
     setToLocation(undefined);
+    setEstimate(undefined);
   };
 
   const updateTs = (ts) => {
@@ -70,7 +77,7 @@ const Booking = () => {
       return;
     }
     const booking = await requestRide(estimate);
-    console.log(booking);
+    setBooking(booking);
   }
 
   return (
@@ -124,19 +131,25 @@ const Booking = () => {
           <Estimate estimate={estimate} />
         </div>
       ) : null}
-      {estimate &&
-      estimate.name !== "BadRequestError" &&
-      fromLocation &&
-      toLocation ? (
-        <div className="booking-now" onClick={reqRide}>
-          <Book />
-        </div>
-      ) : null}
-      {fromLocation && toLocation ? (
-        <div className="booking-later">
-          <BookLater updateTs={updateTs} />
-        </div>
-      ) : null}
+      <div>
+        {booking ? (
+          <div style={{ textAlign: "center" }}>
+            Ride is booked successfully!
+          </div>
+        ) : estimate &&
+          estimate.name !== "BadRequestError" &&
+          fromLocation &&
+          toLocation ? (
+          <div className="booking-now" onClick={reqRide}>
+            <Book />
+          </div>
+        ) : null}
+        {fromLocation && toLocation ? (
+          <div className="booking-later">
+            <BookLater updateTs={updateTs} />
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };

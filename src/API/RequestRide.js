@@ -15,10 +15,13 @@ async function requestRide(estimate) {
     headers: headers,
     body: data,
   });
-
-  const booking = JSON.parse(await bookingResponse.text());
-  console.log(booking);
-  return booking;
+  console.log(bookingResponse);
+  if (bookingResponse.ok) {
+    //const booking = JSON.parse(await bookingResponse.text());
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export { requestRide };

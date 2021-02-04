@@ -14,6 +14,8 @@ const Estimate = (props) => {
   var pickupTs = props.estimate.estimatedPickupTime.ts;
   var pickupDate = new Date(pickupTs * 1000);
   var pickupDay = pickupDate.getDay();
+
+  // Create a utility
   pickupDay = pickupDay.toString.length > 1 ? pickupDay : "0" + pickupDay;
   var pickupMonth = pickupDate.getMonth();
   pickupMonth =

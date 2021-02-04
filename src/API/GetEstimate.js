@@ -4,11 +4,11 @@ const fetch = require("node-fetch");
 
 async function getEstimate(pickupAddress, dropoffAddress, ts) {
   const requestedPickupAddress = pickupAddress;
-  var requestedPickupLatitude = undefined;
-  var requestedPickupLongitude = undefined;
+  var requestedPickupLatitude,
+    requestedPickupLongitude,
+    requestedDropoffLatitude,
+    requestedDropoffLongitude;
   const requestedDropoffAddress = dropoffAddress;
-  var requestedDropoffLatitude = undefined;
-  var requestedDropoffLongitude = undefined;
   const requestedPickUpts = ts;
   data.forEach((item, index) => {
     if (item.address === pickupAddress) {
@@ -42,6 +42,7 @@ async function getEstimate(pickupAddress, dropoffAddress, ts) {
   const estimateResponse = await fetch(url, {
     headers: headers,
   });
+  console.log(estimateResponse);
   const text = await estimateResponse.text();
   const estimate = JSON.parse(await text);
   console.log("estimate", estimate);
