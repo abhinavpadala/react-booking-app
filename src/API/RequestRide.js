@@ -1,11 +1,8 @@
-import bearerToken from "../config";
+import { getHeaders } from "./GetHeaders";
 const fetch = require("node-fetch");
 
 async function requestRide(estimate) {
-  const headers = new fetch.Headers();
-  headers.append("Content-Type", "application/json");
-  headers.append("Authorization", "Bearer " + bearerToken);
-
+  const headers = getHeaders();
   const data = JSON.stringify({
     requestedPickupAddress: estimate.requestedPickupAddress,
     requestedPickupLocation: estimate.requestedPickupLocation,
@@ -20,6 +17,7 @@ async function requestRide(estimate) {
   });
 
   const booking = JSON.parse(await bookingResponse.text());
+  console.log(booking);
   return booking;
 }
 

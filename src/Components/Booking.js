@@ -14,24 +14,22 @@ const Booking = () => {
   const [locationsList, setLocationsList] = useState();
   const [fromLocation, setFromLocation] = useState();
   const [toLocation, setToLocation] = useState();
+  const [ts, setTs] = useState(Math.floor(Date.now() / 1000));
   const [showLocations, setShowLocations] = useState(true);
 
   const [headerText, setHeaderText] = useState("Where can we pick you up?");
   const [estimate, setEstimate] = useState(undefined);
 
   useEffect(() => {
-    if (fromLocation && toLocation) {
+    if (fromLocation && toLocation && ts) {
+      console.log(ts);
       async function callGetEstimate() {
-        const estimate = getEstimate(
-          fromLocation,
-          toLocation,
-          Math.floor(Date.now() / 1000)
-        );
+        const estimate = getEstimate(fromLocation, toLocation, ts);
         setEstimate(await estimate);
       }
       callGetEstimate();
     }
-  }, [fromLocation, toLocation]);
+  }, [fromLocation, toLocation, ts]);
 
   const updateKeyword = async (input) => {
     const filteredLocations = data.filter((location) => {
@@ -61,6 +59,10 @@ const Booking = () => {
 
   const handleDrop = () => {
     setToLocation(undefined);
+  };
+
+  const updateTs = (ts) => {
+    setTs(ts);
   };
 
   async function reqRide() {
@@ -122,14 +124,17 @@ const Booking = () => {
           <Estimate estimate={estimate} />
         </div>
       ) : null}
-      {/* {estimate && fromLocation && toLocation ? (
+      {estimate &&
+      estimate.name !== "BadRequestError" &&
+      fromLocation &&
+      toLocation ? (
         <div className="booking-now" onClick={reqRide}>
           <Book />
         </div>
-      ) : null} */}
+      ) : null}
       {fromLocation && toLocation ? (
         <div className="booking-later">
-          <BookLater />
+          <BookLater updateTs={updateTs} />
         </div>
       ) : null}
     </div>

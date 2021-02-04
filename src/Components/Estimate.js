@@ -2,13 +2,22 @@ import React from "react";
 
 const Estimate = (props) => {
   if (props.estimate.name === "BadRequestError") {
-    return null;
+    return (
+      <div style={{ fontSize: "20px", textAlign: "center", margin: "auto" }}>
+        {props.estimate.message}
+      </div>
+    );
   }
   const styles = {
     flex: "33.3%",
   };
   var pickupTs = props.estimate.estimatedPickupTime.ts;
   var pickupDate = new Date(pickupTs * 1000);
+  var pickupDay = pickupDate.getDay();
+  pickupDay = pickupDay.toString.length > 1 ? pickupDay : "0" + pickupDay;
+  var pickupMonth = pickupDate.getMonth();
+  pickupMonth =
+    pickupMonth.toString.length > 1 ? pickupMonth : "0" + pickupMonth;
   var pickupHours = pickupDate.getHours();
   pickupHours =
     pickupHours.toString().length > 1 ? pickupHours : "0" + pickupHours;
@@ -45,6 +54,7 @@ const Estimate = (props) => {
         }}
       >
         <b>
+          <div>{pickupDay + "-" + pickupMonth}</div>
           <div>
             Pick up at {pickupHours}:{pickupMinutes}
           </div>

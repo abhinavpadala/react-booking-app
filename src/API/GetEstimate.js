@@ -1,4 +1,4 @@
-import bearerToken from "../config";
+import { getHeaders } from "./GetHeaders";
 import { data } from "../Components/Seed";
 const fetch = require("node-fetch");
 
@@ -36,22 +36,13 @@ async function getEstimate(pickupAddress, dropoffAddress, ts) {
     "&requestedPickupTs=" +
     requestedPickUpts +
     "&requestedFlexibility=3600&serviceId=d8719067-5e07-42fe-ba72-c9c6a84c2433&numRiders=1&createdInterface=riderInterface";
-  console.log("Ride is booked");
-  console.log(url);
 
-  // Prepare headers
-
-  const headers = new fetch.Headers();
-  headers.append("Content-Type", "application/json");
-  headers.append("Authorization", "Bearer " + bearerToken);
-
+  const headers = getHeaders();
   // Create estimate
   const estimateResponse = await fetch(url, {
     headers: headers,
   });
-  console.log(estimateResponse);
   const text = await estimateResponse.text();
-  //console.log("estimateResponse.text()", text);
   const estimate = JSON.parse(await text);
   console.log("estimate", estimate);
   return await estimate;
