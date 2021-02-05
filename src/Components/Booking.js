@@ -70,6 +70,7 @@ const Booking = () => {
 
   const updateTs = (ts) => {
     setTs(ts);
+    setEstimate(undefined);
   };
 
   async function reqRide() {
@@ -126,6 +127,7 @@ const Booking = () => {
           />
         </div>
       ) : null}
+
       {estimate && fromLocation && toLocation ? (
         <div className="booking-estimate">
           <Estimate estimate={estimate} />
